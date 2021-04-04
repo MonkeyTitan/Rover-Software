@@ -1,22 +1,14 @@
 #imports
-import ServerMethods
-import ControlInterpruter
-import re
+import ClientMethods
 
-#Data types
-backToNormal = True
+#Object creation
+Client = ClientMethods.MakeClient()
 
-#Object init
-Server = ServerMethods.MakeServer()
+#Fuction execution
+Client.makeSocket()
+Client.connectToSock()
+Client.manageCon()
+Client.closeSocket()
 
-#Execution of functions
-Server.makeSocket()
-Server.bindSocket()
-Server.listen()
-while Server.connection.recv != "shutdown":
-    Server.manageCon()
-
-    print(Server.velocity)
-Server.closeSocket()
 
 
