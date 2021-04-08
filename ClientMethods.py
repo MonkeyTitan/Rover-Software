@@ -2,7 +2,7 @@
 import socket
 import sys
 import keyboard
-
+import re
 
 # Class creation
 class MakeClient:
@@ -43,17 +43,18 @@ class MakeClient:
     def manageCon(self):
         while self.message != 'stopServer':
             # Send data
-            self.message = raw_input("Input: ")
-            if (self.message == 'remote_control'):
+            alphaMessage = input('Input: ')
+            self.message = bytes(alphaMessage, 'utf-8)')
+            if (alphaMessage == 'remote_control'):
                 print('Entering remote control mode')
                 self.control = True
-                self.sock.sendall('@')
+                self.sock.sendall(bytes('@', 'utf8'))
                 while self.control == True:
                     if keyboard.is_pressed('p'):
                         print
-                        response = raw_input('Please enter "quit" to get out of controller mode: ')
+                        response = input('Please enter "quit" to get out of controller mode: ')
                         if response == 'quit':
-                            self.sock.sendall('!')
+                            self.sock.sendall(bytes('!', 'utf-8'))
                             self.control = False
                             print('Leaving remote control mode')
                             break
@@ -61,7 +62,7 @@ class MakeClient:
 
                     if self.keypress2 and not keyboard.is_pressed(self.key2):
                         self.VelocitySetpoint = (self.VelocitySetpoint + 1)
-                        self.message = 'o'
+                        self.message = bytes('o', 'utf-8')
                         self.sock.sendall(self.message)
                         print('')
                         print('The throttle is at: ' + str(self.VelocitySetpoint) + ' Turns a second')
@@ -71,7 +72,7 @@ class MakeClient:
 
                     if self.keypress3 and not keyboard.is_pressed(self.key3):
                         self.VelocitySetpoint = (self.VelocitySetpoint - 1)
-                        self.message = 'l'
+                        self.message = bytes('l', 'utf-8')
                         self.sock.sendall(self.message)
                         print('')
                         print('The throttle is at: ' + str(self.VelocitySetpoint) + ' Turns a second')
@@ -79,9 +80,9 @@ class MakeClient:
                     elif keyboard.is_pressed(self.key3) and not self.keypress3:
                         self.keypress3 = True
 
-                    if self.keypress4 and not keyboard.is_pressed('x'):
+                    if self.keypress4 and not keyboard.is_pressed(self.key4):
                         self.VelocitySetpoint = 0
-                        self.message = 'x'
+                        self.message = bytes('x', 'utf-8')
                         self.sock.sendall(self.message)
                         print('')
                         print('The throttle reset to: ' + str(self.VelocitySetpoint) + ' Turns a second')
@@ -97,7 +98,7 @@ class MakeClient:
                         self.keypress1 = True
 
                     if self.keypress5 and not keyboard.is_pressed(self.key5):
-                        self.message = 'w'
+                        self.message = bytes('w', 'utf-8')
                         print('')
                         self.sock.sendall(self.message)
                         self.keypress5 = False
@@ -105,7 +106,7 @@ class MakeClient:
                         self.keypress5 = True
 
                     if self.keypress6 and not keyboard.is_pressed(self.key6):
-                        self.message = 's'
+                        self.message = bytes('s', 'utf-8')
                         print('')
                         self.sock.sendall(self.message)
                         self.keypress6 = False
@@ -113,7 +114,7 @@ class MakeClient:
                         self.keypress6 = True
 
                     if self.keypress7 and not keyboard.is_pressed(self.key7):
-                        self.message = 'a'
+                        self.message = bytes('a', 'utf-8')
                         print('')
                         self.sock.sendall(self.message)
                         self.keypress7 = False
@@ -121,7 +122,7 @@ class MakeClient:
                         self.keypress7 = True
 
                     if self.keypress8 and not keyboard.is_pressed(self.key8):
-                        self.message = 'd'
+                        self.message = bytes('d', 'utf-8')
                         print('')
                         self.sock.sendall(self.message)
                         self.keypress8 = False
@@ -129,7 +130,7 @@ class MakeClient:
                         self.keypress8 = True
 
                     if self.keypress9 and not keyboard.is_pressed(self.key9):
-                        self.message = 'c'
+                        self.message = bytes('c', 'utf-8')
                         print('')
                         print('stopping')
                         self.sock.sendall(self.message)

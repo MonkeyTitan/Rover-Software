@@ -9,6 +9,3 @@ Client.makeSocket()
 Client.connectToSock()
 Client.manageCon()
 Client.closeSocket()
-
-
-
