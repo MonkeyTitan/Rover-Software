@@ -7,18 +7,13 @@ import re
 #Object creation
 Server = ServerMethods.MakeServer()
 Odriver = OdriveCommands.Odriver()
+Servo = ServoCommands.Servo()
 
 #Data types
 pattern0 = re.compile('@')
 pattern1 = re.compile('!')
-pattern2 = re.compile('o')
-pattern3 = re.compile('l')
-pattern4 = re.compile('w')
-pattern5 = re.compile('s')
-pattern6 = re.compile('a')
-pattern7 = re.compile('d')
-pattern8 = re.compile('x')
-pattern9 = re.compile('b')
+pattern2 = re.compile('{')
+pattern3 = re.compile('}')
 backToNormal = True
 
 #Fuction execution
@@ -36,33 +31,27 @@ while Server.message != "shutdown":
             if Server.BUFFER_SIZE != 0:
                 Server.data = Server.connection.recv(Server.BUFFER_SIZE)
                 message = str(Server.data)
-                for element2 in message:
-                    if pattern1.search(element2):
+                for element in message:
+                    if pattern1.search(element):
                         backToNormal = True
                         print("Going back to regular control.")
                         break
-                for element3 in message:
-                    if pattern2.search(element3):
-                        Odriver.increaseVel()
-                for element4 in message:
-                    if pattern3.search(element4):
-                        Odriver.decreaseVel()
-                for element5 in message:
-                    if pattern4.search(element5):
-                        Odriver.goForwardVel()
-                for element6 in message:
-                    if pattern5.search(element6):
-                        Odriver.goBackwardVel()
-                for element7 in message:
-                    if pattern6.search(element7):
-                        Odriver.goLeftVel()
-                for element8 in message:
-                    if pattern7.search(element8):
-                        Odriver.goRightVel()
-                for element9 in message:
-                    if pattern8.search(element9):
-                        Odriver.killVel()
-                for element10 in message:
-                    if pattern9.search(element10):
-                        Odriver.stop()
+                for element in message:
+                    if pattern2.search(element):
+                        Odriver.setVelControl()
+                for element in message:
+                    if pattern3.search(element):
+                        Odriver.setTorqueControl()
+                for element in message:
+                    y1Value = (re.search('startx1(.*)endx1', message))
+                    y2Value = (re.search('starty1(.*)endy1', message))
+                    Odriver.x1Value
+                    print(Odriver.x1Value)
+                    print(Odriver.y1Value)
+                    if Odriver.y1Value <= 0:
+                        Odriver.goBackwardCurConOne()
+                    else:
+                        Odriver.goForwardCurConOne()
+                print(Odriver.x1Value)
+                print(Odriver.y1Value)
 Server.closeSocket()
